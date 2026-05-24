@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useState } from 'react'
 import ROICalculator from '@/components/home/ROICalculator'
+import UseCases from '@/components/home/UseCases'
 import CapabilityMap from '@/components/home/CapabilityMap'
 import PartnerTimeline from '@/components/home/PartnerTimeline'
 import Guarantee from '@/components/home/Guarantee'
@@ -211,6 +212,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <UseCases />
 
       <ROICalculator />
 
