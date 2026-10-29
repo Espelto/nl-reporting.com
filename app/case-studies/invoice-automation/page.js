@@ -1,11 +1,18 @@
 import CaseStudy from '@/components/CaseStudy'
+import { pageMeta } from '@/lib/seo'
 
-export const metadata = { title: 'Invoice Processing Automation | NL Reporting' }
+export const metadata = pageMeta({
+  title: 'Invoice Processing Automation',
+  description:
+    'n8n invoice automation for a B2B SaaS team: 45 minutes to 3 minutes per invoice, 99.2% accuracy, 140 hours returned per month.',
+  path: '/case-studies/invoice-automation',
+})
 
 const data = {
   title: 'Invoice Processing Automation',
   context: 'B2B SaaS · 8-person company · Finance team of 2 · ~200 invoices/month',
-  tags: ['N8N', 'Claude AI', 'QuickBooks Online', 'IMAP', 'Google Drive'],
+  tags: ['n8n', 'Claude AI', 'QuickBooks Online', 'IMAP', 'Google Drive'],
+  workflowPlatform: 'n8n',
   numbers: [
     { value: '140h', label: 'freed per month' },
     { value: '45 → 3 min', label: 'per invoice' },

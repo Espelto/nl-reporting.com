@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="136" viewBox="0 0 560 136"><defs>
+  <linearGradient id="gv" x1="0" y1="1" x2="0" y2="0">
+    <stop offset="0" stop-color="#10C2A8"/><stop offset="1" stop-color="#3D7BFF"/>
+  </linearGradient>
+  <linearGradient id="gh" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#10C2A8"/><stop offset="1" stop-color="#3D7BFF"/>
+  </linearGradient>
+  <linearGradient id="bg" x1="0" y1="0" x2="0.6" y2="1">
+    <stop offset="0" stop-color="#16233B"/><stop offset="1" stop-color="#0E1726"/>
+  </linearGradient>
+  <linearGradient id="sweep" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#10C2A8" stop-opacity="0.07"/>
+    <stop offset="1" stop-color="#3D7BFF" stop-opacity="0.20"/>
+  </linearGradient>
+  <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+    <stop offset="0" stop-color="#7FFFE0" stop-opacity="0.55"/>
+    <stop offset="0.5" stop-color="#10C2A8" stop-opacity="0.22"/>
+    <stop offset="1" stop-color="#10C2A8" stop-opacity="0"/>
+  </radialGradient></defs>
+  <g transform="translate(0,8) scale(1.0)">
+    <rect width="120" height="120" rx="30" fill="url(#bg)"/>
+    <clipPath id="bc"><rect width="120" height="120" rx="30"/></clipPath>
+    <g clip-path="url(#bc)">
+      <!-- gridlines -->
+      <g stroke="#F4F7FA" stroke-opacity="0.055" stroke-width="1.6">
+        <line x1="14" y1="42" x2="106" y2="42"/>
+        <line x1="14" y1="66" x2="106" y2="66"/>
+        <line x1="14" y1="90" x2="106" y2="90"/>
+      </g>
+      <!-- rising area chart: line ends at the signal endpoint -->
+      <path d="M 0,120 L 0,103 C 36,99 64,71 87,35 C 93,25.5 104,16 120,9 L 120,120 Z" fill="url(#sweep)"/>
+      <path d="M -2,103.2 C 36,99 64,71 87,35 C 93,25.5 104,16 122,8" fill="none"
+            stroke="url(#gh)" stroke-width="2.6" stroke-opacity="0.55"/>
+      <!-- endpoint glow -->
+      <circle cx="87" cy="35" r="22" fill="url(#glow)"/>
+      <!-- n -->
+      <path d="M 35,90 L 35,61 C 35,50 61,50 61,61 L 61,90" fill="none"
+            stroke="#F4F7FA" stroke-width="10" stroke-linecap="round"/>
+      <!-- l : the signal -->
+      <rect x="82" y="30" width="10" height="65" rx="5" fill="url(#gv)"/>
+      <!-- endpoint -->
+      <circle cx="87" cy="35" r="3.1" fill="#F4F7FA"/>
+    </g>
+  </g>
+  <g transform="translate(160,93.3) scale(0.72)">
+    <text x="0" y="0" font-family="Outfit" font-weight="700" font-size="100" fill="#F4F7FA">nl</text>
+    <rect x="90.85" y="-30.75" width="31" height="9.5" rx="4.75" fill="url(#gh)"/>
+    <text x="129.4" y="0" font-family="Outfit" font-weight="400" font-size="100" fill="#F4F7FA">reporting</text>
+  </g></svg>

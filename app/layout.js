@@ -1,18 +1,60 @@
+import { Plus_Jakarta_Sans } from 'next/font/google'
 import './globals.css'
 import Sidebar from '@/components/Sidebar'
+import Footer from '@/components/Footer'
+import JsonLd from '@/components/JsonLd'
+import { SITE } from '@/lib/site'
+
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-sans',
+})
 
 export const metadata = {
-  title: 'NL Reporting | Workflow Optimization & Responsible AI',
-  description: 'Transform your workflows with responsible AI integration. Optimize processes, reduce manual work, drive results.',
+  metadataBase: new URL(SITE.url),
+  title: {
+    default: `${SITE.name} | I own the finance process`,
+    template: `%s | ${SITE.name}`,
+  },
+  description: SITE.description,
+  keywords: [
+    'finance automation',
+    'FP&A',
+    'n8n',
+    'KNIME',
+    'invoice automation',
+    'month-end close',
+    'cash flow forecasting',
+    'Alexey Kobzev',
+  ],
+  authors: [{ name: SITE.founder.name, url: SITE.founder.linkedin }],
+  creator: SITE.founder.name,
+  openGraph: {
+    title: `${SITE.name} | Finance automation for production`,
+    description: SITE.description,
+    url: SITE.url,
+    siteName: SITE.name,
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${SITE.name} | Finance automation for production`,
+    description: SITE.description,
+  },
+  robots: { index: true, follow: true },
 }
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className="bg-dark-900 text-dark-100 antialiased" style={{ display: 'flex' }}>
+    <html lang="en" className={jakarta.variable}>
+      <body className={`${jakarta.className} bg-dark-900 text-dark-100 antialiased`}>
+        <JsonLd />
         <Sidebar />
-        <div style={{ marginLeft: 64, flex: 1, minHeight: '100vh' }}>
-          {children}
+        <div className="flex min-h-screen flex-col md:ml-16 pb-24 md:pb-0">
+          <div className="flex-1">{children}</div>
+          <Footer />
         </div>
       </body>
     </html>

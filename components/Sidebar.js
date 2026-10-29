@@ -1,90 +1,154 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
-import { useState } from 'react'
-import { Menu, X, Home, BarChart2, Mail, ArrowRight } from 'lucide-react'
+import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import {
+  ArrowRight,
+  BarChart2,
+  Briefcase,
+  Home,
+  LineChart,
+  Mail,
+  Menu,
+  User,
+  X,
+} from 'lucide-react'
+import Logo from '@/components/Logo'
+
+const navLinks = [
+  { label: 'Home', href: '/', icon: Home },
+  { label: 'Work', href: '/case-studies', icon: BarChart2 },
+  { label: 'Services', href: '/services', icon: Briefcase },
+  { label: 'Results', href: '/results', icon: LineChart },
+  { label: 'About', href: '/about', icon: User },
+  { label: 'Contact', href: '/contact', icon: Mail },
+]
+
+function isActive(pathname, href) {
+  if (href === '/') return pathname === '/'
+  return pathname === href || pathname.startsWith(`${href}/`)
+}
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false)
+  const pathname = usePathname()
 
-  const navLinks = [
-    { label: 'Home', href: '/', icon: Home },
-    { label: 'Case Studies', href: '/case-studies', icon: BarChart2 },
-    { label: 'Contact', href: '/contact', icon: Mail },
-  ]
+  useEffect(() => {
+    setIsOpen(false)
+  }, [pathname])
+
+  useEffect(() => {
+    if (!isOpen) return undefined
+    const onKey = e => {
+      if (e.key === 'Escape') setIsOpen(false)
+    }
+    document.body.style.overflow = 'hidden'
+    window.addEventListener('keydown', onKey)
+    return () => {
+      document.body.style.overflow = ''
+      window.removeEventListener('keydown', onKey)
+    }
+  }, [isOpen])
 
   return (
     <>
-      {/* Desktop Sidebar */}
-      <div className="hidden md:flex fixed left-0 top-0 h-screen w-16 bg-dark-800 border-r border-dark-700 flex-col items-center py-8 gap-8 z-40">
-        {/* Logo */}
-        <Link href="/" className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center font-bold text-white hover:shadow-lg hover:shadow-primary-500/50 transition-all">
-          NL
+      <aside className="hidden md:flex fixed left-0 top-0 h-screen w-16 bg-dark-800/90 backdrop-blur-md border-r border-white/[0.06] flex-col items-center py-6 gap-6 z-40">
+        <Link
+          href="/"
+          className="rounded-lg hover:shadow-lg hover:shadow-primary-500/30 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400"
+          aria-label="NL Reporting home"
+        >
+          <Logo size={40} />
         </Link>
 
-        {/* Nav Icons */}
-        <nav className="flex flex-col gap-4 flex-1">
-          {navLinks.map((link, i) => {
+        <nav className="flex flex-col gap-2 flex-1" aria-label="Primary">
+          {navLinks.map(link => {
             const Icon = link.icon
+            const active = isActive(pathname, link.href)
             return (
-              <motion.div
-                key={i}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
+              <Link
+                key={link.href}
+                href={link.href}
+                title={link.label}
+                aria-current={active ? 'page' : undefined}
+                className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all ${
+                  active
+                    ? 'bg-primary-500/20 text-primary-300 ring-1 ring-primary-500/40'
+                    : 'text-dark-400 hover:bg-white/[0.06] hover:text-primary-300'
+                }`}
               >
-                <Link
-                  href={link.href}
-                  title={link.label}
-                  className="w-10 h-10 rounded-lg flex items-center justify-center text-dark-300 hover:bg-dark-700 hover:text-primary-400 transition-all"
-                >
-                  <Icon size={18} />
-                </Link>
-              </motion.div>
+                <Icon size={18} />
+              </Link>
             )
           })}
         </nav>
 
-        {/* Bottom CTA */}
-        <motion.a
+        <Link
           href="/contact"
-          whileHover={{ scale: 1.05 }}
-          className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white hover:shadow-lg hover:shadow-primary-500/50 transition-all"
-          title="Get Started"
+          className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white hover:shadow-lg hover:shadow-primary-500/40 transition-all"
+          title="Book a process audit"
         >
           <ArrowRight size={16} />
-        </motion.a>
-      </div>
+        </Link>
+      </aside>
 
-      {/* Mobile Menu Button */}
-      <motion.button
-        whileTap={{ scale: 0.95 }}
-        onClick={() => setIsOpen(!isOpen)}
-        className="md:hidden fixed bottom-6 right-6 w-12 h-12 rounded-lg bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white z-50 shadow-lg"
+      <button
+        type="button"
+        onClick={() => setIsOpen(open => !open)}
+        aria-expanded={isOpen}
+        aria-label={isOpen ? 'Close menu' : 'Open menu'}
+        suppressHydrationWarning
+        className="md:hidden fixed bottom-6 right-6 w-12 h-12 rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white z-50 shadow-lg shadow-primary-500/30"
       >
         {isOpen ? <X size={20} /> : <Menu size={20} />}
-      </motion.button>
+      </button>
 
-      {/* Mobile Menu */}
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 20 }}
-          className="md:hidden fixed bottom-20 right-6 bg-dark-800 border border-dark-700 rounded-lg p-4 flex flex-col gap-3 z-40"
-        >
-          {navLinks.map((link, i) => (
-            <Link
-              key={i}
-              href={link.href}
-              className="px-4 py-2 text-sm text-dark-200 hover:text-primary-400 hover:bg-dark-700 rounded transition-all"
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            <motion.button
+              key="mobile-overlay"
+              type="button"
+              aria-label="Close menu"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="md:hidden fixed inset-0 bg-black/50 z-40"
               onClick={() => setIsOpen(false)}
+            />
+            <motion.nav
+              key="mobile-nav"
+              initial={{ opacity: 0, y: 16, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 16, scale: 0.98 }}
+              className="md:hidden fixed bottom-20 right-6 left-6 sm:left-auto sm:w-64 bg-dark-800 border border-white/10 rounded-2xl p-3 flex flex-col gap-1 z-50 shadow-2xl"
+              aria-label="Mobile"
             >
-              {link.label}
-            </Link>
-          ))}
-        </motion.div>
-      )}
+              {navLinks.map(link => {
+                const Icon = link.icon
+                const active = isActive(pathname, link.href)
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg transition-all ${
+                      active
+                        ? 'bg-primary-500/20 text-white'
+                        : 'text-dark-200 hover:text-white hover:bg-white/[0.06]'
+                    }`}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <Icon size={16} />
+                    {link.label}
+                  </Link>
+                )
+              })}
+            </motion.nav>
+          </>
+        )}
+      </AnimatePresence>
     </>
   )
 }

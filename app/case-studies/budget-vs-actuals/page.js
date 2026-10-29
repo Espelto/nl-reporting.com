@@ -1,11 +1,18 @@
 import CaseStudy from '@/components/CaseStudy'
+import { pageMeta } from '@/lib/seo'
 
-export const metadata = { title: 'Budget vs Actuals Monitoring | NL Reporting' }
+export const metadata = pageMeta({
+  title: 'Budget vs Actuals Monitoring',
+  description:
+    'KNIME budget vs actuals pipeline: Sunday-night run, Monday 7am variance pack with commentary, 8 analyst hours returned each week.',
+  path: '/case-studies/budget-vs-actuals',
+})
 
 const data = {
   title: 'Budget vs Actuals Monitoring',
   context: 'Mid-market SaaS · 60-person company · Finance team of 4 · 12 departments tracked',
-  tags: ['N8N', 'NetSuite', 'Claude AI', 'SendGrid', 'Slack'],
+  tags: ['KNIME', 'NetSuite', 'Claude AI', 'SendGrid', 'Slack'],
+  workflowPlatform: 'knime',
   numbers: [
     { value: '2 days → 0', label: 'report prep time' },
     { value: 'Monday 7am', label: 'delivery vs Tuesday (stale)' },
@@ -25,13 +32,13 @@ const data = {
     {
       heading: 'What we built',
       body: [
-        'We built an N8N workflow that runs on a schedule every Sunday at 11pm, so the report is ready before the working week begins.',
+        'We built a KNIME analytics workflow that runs on a schedule every Sunday at 11pm, so the report is ready before the working week begins.',
         'The first step pulls actuals from NetSuite using their REST API. We query the Transaction Search endpoint filtered to the current accounting period, grouped by department (class in NetSuite terminology) and account. This returns a JSON payload of all GL activity. We then flatten it into a line-by-line structure: department, account code, account name, period actuals.',
         'Budget data lives in a Google Sheet that the finance team maintains — they update it once when the annual budget is set, and again if there\'s a re-forecast. The workflow fetches this sheet via the Sheets API and joins it to the actuals data on the combination of department + account code. Any account in the budget that has no actuals gets a zero actuals figure; any actuals line with no corresponding budget row is flagged as "unbudgeted spend."',
         'After joining, the workflow calculates for each line: dollar variance (actuals minus budget), percentage variance, and a flag for whether the variance exceeds the threshold for commentary (we set this at 5% and minimum $500 absolute, to avoid commentary on $10 variances).',
         { type: 'callout', text: 'Lines that exceed the commentary threshold are passed to Claude. The prompt gives Claude the department name, account name, dollar variance, percentage variance, and the current period (e.g. "Week 3 of November"). Claude is asked to write one sentence explaining the likely cause and one sentence on what the finance team should check. We spent time on prompt engineering here — early outputs were too generic ("spending was higher than budgeted"), and we iterated until the output read more like a competent analyst\'s commentary.' },
         'Once all commentary is generated, the workflow assembles an HTML email. The email has a summary section at the top (total spend vs budget for the company overall, and a count of lines in each variance band), followed by a department-by-department table. Each table shows every budget line with actuals, variance, and — for flagged lines — the Claude-generated commentary. The email is sent via SendGrid to the CFO and all department heads by 7am Monday.',
-        'Separately, any individual line with a dollar variance over $10,000 also triggers an immediate Slack message to the finance-alerts channel, regardless of when it\'s detected. This part runs on a separate N8N workflow that fires every 6 hours throughout the week, not just Sunday night — so large variances are flagged as they accumulate, not after the fact.',
+        'Separately, any individual line with a dollar variance over $10,000 also triggers an immediate Slack message to the finance-alerts channel, regardless of when it\'s detected. This part runs as a second KNIME workflow that fires every 6 hours throughout the week, not just Sunday night — so large variances are flagged as they accumulate, not after the fact.',
       ],
     },
     {
@@ -40,11 +47,11 @@ const data = {
         {
           type: 'list',
           items: [
-            'N8N cloud instance (shared infrastructure plan — this workflow is not latency-sensitive)',
+            'KNIME Server (shared executor — this workflow is not latency-sensitive)',
             'NetSuite REST API — requires setting up a connected app with OAuth 2.0 credentials; the main complexity was getting the search filter syntax right for period-based GL queries',
             'Google Sheets as the budget source — the finance team already worked in Sheets, so this avoided building a separate budget input UI',
             'Claude API for commentary — the prompt is roughly 400 tokens; each weekly run processes between 15 and 40 flagged lines, so Claude cost is under $0.10 per weekly report',
-            'SendGrid for HTML email delivery — we built a simple HTML template inline within N8N using its code node',
+            'SendGrid for HTML email delivery — report HTML assembled in a KNIME Component with a JavaScript snippet node',
             'Slack webhook for real-time alerts — messages include the department, account, budgeted amount, actual amount, and variance',
           ],
         },
@@ -67,7 +74,7 @@ const data = {
           { label: 'Timezone', value: 'America/New_York' },
           { label: 'Trigger on', value: 'Sunday night' },
         ]},
-      { id: 'ns', type: 'netsuite', label: 'NetSuite API', sub: 'GL actuals by dept', x: 246, y: 20,
+      { id: 'ns', type: 'db', typeLabel: 'connector', label: 'NetSuite Connector', sub: 'GL actuals by dept', x: 246, y: 20,
         settings: [
           { label: 'Endpoint', value: '/record/v1/transaction', mono: true },
           { label: 'Auth', value: 'OAuth 2.0 (TBA)' },
@@ -75,14 +82,14 @@ const data = {
           { label: 'Group by', value: 'department (class), account' },
           { label: 'Output', value: 'JSON · actuals per line item' },
         ]},
-      { id: 'budget', type: 'sheets', label: 'Google Sheets', sub: 'Annual budget table', x: 246, y: 116,
+      { id: 'budget', type: 'reader', typeLabel: 'reader', label: 'Google Sheets', sub: 'Annual budget table', x: 246, y: 116,
         settings: [
           { label: 'Operation', value: 'Read Range' },
           { label: 'Sheet', value: 'Budget_FY2024' },
           { label: 'Range', value: 'A:E (dept, account, q1–q4)', mono: true },
           { label: 'Refresh', value: 'Every run (live source)' },
         ]},
-      { id: 'join', type: 'code', label: 'Code', sub: 'Join · calc $ % variance', x: 460, y: 68,
+      { id: 'join', type: 'joiner', typeLabel: 'manipulator', label: 'Joiner', sub: 'Join · calc $ % variance', x: 460, y: 68,
         settings: [
           { label: 'Join key', value: 'department + account_code' },
           { label: '$ variance', value: 'actuals − budget' },
@@ -99,7 +106,7 @@ const data = {
           { label: 'Sentence 2', value: 'What to investigate' },
           { label: 'Cost/run', value: '~$0.08 (15–40 flagged lines)' },
         ]},
-      { id: 'html', type: 'code', label: 'Code', sub: 'Build HTML report', x: 860, y: 68,
+      { id: 'html', type: 'writer', typeLabel: 'sink', label: 'Report Builder', sub: 'Build HTML report', x: 860, y: 68,
         settings: [
           { label: 'Template', value: 'Inline HTML + CSS' },
           { label: 'Sections', value: 'Summary banner + dept-by-dept tables' },
@@ -107,7 +114,7 @@ const data = {
           { label: 'Variant B', value: 'Dept-filtered (dept heads)' },
           { label: 'Recipients', value: 'Lookup from config sheet' },
         ]},
-      { id: 'email', type: 'sendgrid', label: 'SendGrid', sub: 'Email CFO + dept heads', x: 1060, y: 68,
+      { id: 'email', type: 'email', typeLabel: 'sink', label: 'Send Email', sub: 'CFO + dept heads', x: 1060, y: 68,
         settings: [
           { label: 'From', value: 'finance@company.com' },
           { label: 'Subject', value: 'Budget vs Actuals — {{ period }}' },
@@ -120,18 +127,18 @@ const data = {
           { label: 'Runs', value: 'Mon–Fri, 4× per day' },
           { label: 'Purpose', value: 'Real-time large variance alerts' },
         ]},
-      { id: 'ns2', type: 'netsuite', label: 'NetSuite API', sub: 'Pull latest GL', x: 246, y: 230,
+      { id: 'ns2', type: 'db', typeLabel: 'connector', label: 'NetSuite Connector', sub: 'Pull latest GL', x: 246, y: 230,
         settings: [
           { label: 'Same endpoint', value: '/record/v1/transaction', mono: true },
           { label: 'Incremental', value: 'Since last run (lastModifiedDate)', mono: true },
         ]},
-      { id: 'filter', type: 'code', label: 'Code', sub: 'Filter variances >$10k', x: 460, y: 230,
+      { id: 'filter', type: 'rule', typeLabel: 'rule', label: 'Rule Engine', sub: 'Filter variances >$10k', x: 460, y: 230,
         settings: [
           { label: 'Threshold', value: '$10,000 absolute variance' },
           { label: 'Compare vs', value: 'Budget from config sheet' },
           { label: 'Dedup', value: 'Skip if alerted in past 24h' },
         ]},
-      { id: 'slackalrt', type: 'slack', label: 'Slack', sub: 'finance-alerts channel', x: 660, y: 230,
+      { id: 'slackalrt', type: 'slack', typeLabel: 'sink', label: 'Slack', sub: 'finance-alerts channel', x: 660, y: 230,
         settings: [
           { label: 'Channel', value: '#finance-alerts' },
           { label: 'Message', value: 'Dept · Account · Budget · Actual · Variance' },

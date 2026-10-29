@@ -7,11 +7,9 @@ html {
 }
 
 body {
-  background-color: #051c2c;
+  background-color: #07141f;
   color: #e5e7eb;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 * {
@@ -31,17 +29,54 @@ button {
   font-family: inherit;
 }
 
+::selection {
+  background: rgba(26, 123, 174, 0.35);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid #4a9bc4;
+  outline-offset: 3px;
+}
+
 .gradient-teal {
   background: linear-gradient(135deg, #1a7bae 0%, #0f4875 100%);
 }
 
 .glass-effect {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .section-divider {
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(26, 123, 174, 0.3), transparent);
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(26, 123, 174, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 123, 174, 0.055) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+.bg-radial-fade {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(26, 123, 174, 0.18), transparent 55%),
+    radial-gradient(ellipse 40% 40% at 90% 20%, rgba(16, 194, 168, 0.06), transparent 50%);
+}
+
+select,
+select option {
+  background-color: #0c2233;
+  color: #f3f4f6;
+}
+
+input[type='range'] {
+  accent-color: #1a7bae;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  cursor: pointer;
 }

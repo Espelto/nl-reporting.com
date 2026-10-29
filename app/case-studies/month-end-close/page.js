@@ -1,11 +1,18 @@
 import CaseStudy from '@/components/CaseStudy'
+import { pageMeta } from '@/lib/seo'
 
-export const metadata = { title: 'Month-End Close Automation | NL Reporting' }
+export const metadata = pageMeta({
+  title: 'Month-End Close Automation',
+  description:
+    'n8n close orchestration for a Series B SaaS team: 12-day close cut to 4 days, with automated reconciliations and Slack exceptions.',
+  path: '/case-studies/month-end-close',
+})
 
 const data = {
   title: 'Month-End Close Automation',
   context: 'Series B SaaS · 3-person accounting team · 6 systems to reconcile · 12-day close cycle',
-  tags: ['N8N', 'QuickBooks Online', 'Claude AI', 'Slack', 'Notion'],
+  tags: ['n8n', 'QuickBooks Online', 'Claude AI', 'Slack', 'Notion'],
+  workflowPlatform: 'n8n',
   numbers: [
     { value: '12 → 4 days', label: 'close cycle' },
     { value: '87 → 34', label: 'manual steps' },

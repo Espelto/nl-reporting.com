@@ -1,11 +1,18 @@
 import CaseStudy from '@/components/CaseStudy'
+import { pageMeta } from '@/lib/seo'
 
-export const metadata = { title: 'Cash Flow Forecasting | NL Reporting' }
+export const metadata = pageMeta({
+  title: 'Cash Flow Forecasting',
+  description:
+    'On-premise Pi Agent cash forecast: daily 13-week model from four live sources, 4 hours to 20 minutes, 68% to 91% accuracy.',
+  path: '/case-studies/cash-flow-forecasting',
+})
 
 const data = {
   title: 'Cash Flow Forecasting',
   context: 'Growth-stage e-commerce · CFO + 1 analyst · 4 data sources · Weekly manual process',
-  tags: ['N8N', 'Claude AI', 'Plaid', 'QuickBooks', 'Bill.com', 'Gusto', 'Google Sheets'],
+  tags: ['Pi Agent', 'Ollama', 'Claude (optional)', 'Plaid', 'QuickBooks', 'Bill.com', 'Gusto'],
+  workflowPlatform: 'pi',
   numbers: [
     { value: '4h → 20min', label: 'weekly forecast time' },
     { value: '68% → 91%', label: 'forecast accuracy' },
@@ -25,11 +32,11 @@ const data = {
       heading: 'What we built',
       body: [
         'We built a forecasting pipeline that runs automatically every weekday morning at 6am and deposits an updated forecast into a Google Sheet before anyone arrives at their desk.',
-        'The pipeline starts by pulling live data from all four sources simultaneously using N8N\'s parallel execution. QuickBooks is queried via REST API for the current AR aging report — this returns open invoices grouped by customer with their due dates and amounts. Bill.com is queried for open bills, scheduled payment dates, and amounts. Gusto is queried for the upcoming payroll schedule. Plaid is used to fetch the previous day\'s closing bank balance for the company\'s two accounts.',
+        'The pipeline runs on a Raspberry Pi in the client\'s office network. A Pi Agent orchestrator pulls live data from all four sources in parallel — via REST where APIs are allowed, and from scheduled CSV exports dropped to a local folder where not. QuickBooks AR aging, Bill.com open bills, Gusto payroll dates, and Plaid bank balances are assembled on the device. Raw ledgers never leave the LAN.',
         'With the raw data assembled, the workflow runs the forecast calculation. AR is projected based on the due dates in the aging report, with a payment probability applied to each invoice by aging bucket: current invoices are assumed to collect at 95% on due date, 31–60 days is 75%, 61–90 is 50%, over 90 is 20%. These probability percentages were calibrated against 18 months of historical payment data during the initial setup and can be adjusted in a configuration sheet.',
         {
           type: 'callout',
-          text: 'Customer-level payment probability is where Claude comes in. Rather than applying the same bucket-level probability to every customer, Claude is given the payment history for each customer (number of invoices, average days to pay, any late payment patterns) and asked to produce a customer-specific expected collection date and probability. For customers with consistent payment behaviour, this doesn\'t change much. For customers who are sometimes early, sometimes very late, it produces a more realistic range.'
+          text: 'Customer-level payment probability is the one optional cloud step. Rather than sending the ledger, the agent posts a summarized payload (customer, invoice count, average days to pay, variance) to Claude and receives an expected week and probability. Teams that cannot send even summaries off-network swap this node for a local Ollama model — the rest of the pipeline never leaves the LAN. For customers with consistent payment behaviour the adjustment is small; for customers who are sometimes early and sometimes very late, it produces a more realistic range.'
         },
         'AP projections are taken directly from Bill.com scheduled payment dates with no adjustment — these are committed outflows. Payroll is taken from the Gusto schedule as a fixed outflow on each payroll date. Overhead expenses (rent, subscriptions, other recurring costs) are maintained in a configuration table in the Google Sheet and applied as fixed weekly outflows.',
         'The output is a week-by-week cash flow table for the next 13 weeks: opening balance, expected collections by week, scheduled AP payments, payroll, overhead, net cash movement, and closing balance. The model runs three scenarios — base (using the calibrated probabilities), conservative (all probabilities reduced by 15%), and optimistic (due dates taken at face value without probability discounting). All three are written to separate tabs in the Google Sheet.',
@@ -42,9 +49,9 @@ const data = {
         {
           type: 'list',
           items: [
-            'N8N cloud instance — this workflow benefits from N8N cloud\'s reliability guarantees since it runs daily and the CFO depends on it being there each morning',
+            'Pi Agent on Raspberry Pi 5 (8GB) — systemd service restarts the agent if the device reboots; UPS recommended for reliability',
             'QuickBooks Online REST API — AR aging report endpoint; the response structure required some parsing to extract the bucket breakdown by customer',
-            'Bill.com API — bills endpoint filtered to unpaid status; Bill.com\'s API requires a session-based authentication token that must be refreshed periodically, which N8N handles automatically via a credential refresh step',
+            'Bill.com API — session token refresh handled by a small Python tool the agent calls locally',
             'Gusto API — payroll schedules endpoint; the payroll data is the simplest of the four sources, returning fixed dates and amounts',
             'Plaid — connected to both bank accounts; returns previous-day closing balances; Plaid requires an initial link flow where the CFO authorised access once via a hosted link',
             'Claude API — customer payment probability step; prompt includes customer name, invoice history summary, and asks for a probability and expected collection week; output is structured JSON',
@@ -57,7 +64,7 @@ const data = {
       heading: 'Calibration and ongoing maintenance',
       body: [
         'The customer payment probability model was the most time-consuming part to set up correctly. We pulled 18 months of historical AR data from QuickBooks and calculated actual days-to-pay by customer. Claude\'s initial probability estimates were then back-tested against this history — we compared what the model would have predicted with what actually happened. The first version was overoptimistic on a few slow-paying customers. We adjusted the prompt to be more conservative for customers with high variance in their payment timing.',
-        'The configuration sheet is designed so the finance team can adjust it themselves without touching N8N. Overhead expenses can be added or removed. Probability buckets can be recalibrated. The Slack alert threshold can be changed. We built this deliberately because cash flow assumptions change as the business grows, and we didn\'t want the model to become stale.',
+        'The configuration file (forecast.yaml on the Pi) is designed so the finance team can adjust assumptions without touching code. Overhead expenses, probability buckets, and Slack alert thresholds are editable in one place.',
         'We also set up a monthly reconciliation step where the workflow compares what it predicted 4 weeks ago against what actually happened. The output goes to a tab in the Google Sheet labelled "accuracy log." This isn\'t used to auto-adjust the model — it\'s for the analyst to review and decide if any assumptions need updating.',
       ],
     },

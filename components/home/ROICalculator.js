@@ -16,11 +16,16 @@ export default function ROICalculator() {
   const automatedMonthlyCost = automatedMonthlyHours * hourlyRate
   const monthlySavings = currentMonthlyCost - automatedMonthlyCost
   const implementationCost = 2400
-  const paybackDays = Math.round((implementationCost / monthlySavings) * 30)
+  const paybackDays =
+    monthlySavings > 0 ? Math.round((implementationCost / monthlySavings) * 30) : null
   const annualSavings = monthlySavings * 12
+  const savingsPct =
+    currentMonthlyCost > 0 ? ((monthlySavings / currentMonthlyCost) * 100).toFixed(0) : '0'
+  const money = n =>
+    n.toLocaleString(undefined, { maximumFractionDigits: 0 })
 
   return (
-    <section id="calculator" className="py-24 px-4 bg-gradient-to-b from-dark-900 to-dark-800">
+    <section id="calculator" className="py-24 px-4 bg-gradient-to-b from-dark-900 to-dark-800 scroll-mt-8">
       <div className="max-w-3xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -31,7 +36,7 @@ export default function ROICalculator() {
         >
           <span className="text-primary-400 text-sm font-semibold tracking-widest uppercase mb-3 block">Calculate Your ROI</span>
           <h2 className="text-4xl font-bold mb-4">See your savings in real time</h2>
-          <p className="text-dark-300">Adjust your numbers. Watch the math work.</p>
+          <p className="text-dark-300">Invoice-processing example. Adjust the sliders to match your volume.</p>
         </motion.div>
 
         <motion.div
@@ -99,25 +104,25 @@ export default function ROICalculator() {
               {[
                 {
                   label: 'Current Monthly Cost',
-                  value: `$${currentMonthlyCost.toLocaleString()}`,
+                  value: `$${money(currentMonthlyCost)}`,
                   subtext: `${monthlyHours.toFixed(0)} hours/month`,
                   color: 'text-red-400',
                 },
                 {
                   label: 'After Automation',
-                  value: `$${automatedMonthlyCost.toLocaleString()}`,
+                  value: `$${money(automatedMonthlyCost)}`,
                   subtext: `${automatedMonthlyHours.toFixed(1)} hours/month`,
                   color: 'text-primary-400',
                 },
                 {
                   label: 'Monthly Savings',
-                  value: `$${monthlySavings.toLocaleString()}`,
+                  value: `$${money(monthlySavings)}`,
                   subtext: `${(monthlyHours - automatedMonthlyHours).toFixed(0)} hours freed`,
                   color: 'text-green-400',
                 },
                 {
                   label: 'Payback Period',
-                  value: paybackDays > 0 ? `${paybackDays} days` : 'Immediate',
+                  value: paybackDays == null ? '—' : paybackDays > 0 ? `${paybackDays} days` : 'Immediate',
                   subtext: `Implementation: $${implementationCost.toLocaleString()}`,
                   color: 'text-primary-400',
                 },
@@ -142,8 +147,10 @@ export default function ROICalculator() {
             className="mt-10 p-6 rounded-lg" style={{ background: 'rgba(26,123,174,0.1)', border: '1px solid rgba(26,123,174,0.3)' }}
           >
             <p className="text-dark-300 text-sm mb-2">Annual Impact</p>
-            <p className="text-4xl font-bold text-primary-400">${annualSavings.toLocaleString()}</p>
-            <p className="text-dark-400 text-sm mt-2">That's {((monthlySavings / currentMonthlyCost) * 100).toFixed(0)}% of your current invoice processing cost</p>
+            <p className="text-4xl font-bold text-primary-400">${money(annualSavings)}</p>
+            <p className="text-dark-400 text-sm mt-2">
+              That&apos;s {savingsPct}% of current invoice-processing cost. Starting implementation fee: ${implementationCost.toLocaleString()}.
+            </p>
           </motion.div>
         </motion.div>
       </div>

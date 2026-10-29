@@ -1,20 +1,13 @@
-import MetricsDashboard from '@/components/MetricsDashboard'
+import ResultsView from '@/components/results/ResultsView'
+import { pageMeta } from '@/lib/seo'
 
-export const metadata = {
-  title: 'Results | NL Reporting',
-}
+export const metadata = pageMeta({
+  title: 'Results',
+  description:
+    'Measured outcomes from NL Reporting implementations: 93% faster AP, 12→4 day close, Monday 7am variance packs, 91% cash forecast accuracy.',
+  path: '/results',
+})
 
 export default function ResultsPage() {
-  return (
-    <main className="min-h-screen bg-dark-900">
-      <div className="py-16 px-4 text-center">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">Results</h1>
-        <p className="text-dark-300 text-lg max-w-2xl mx-auto">
-          Real metrics from live implementations. No estimates.
-        </p>
-      </div>
-      <div className="section-divider" />
-      <MetricsDashboard />
-    </main>
-  )
+  return <ResultsView />
 }

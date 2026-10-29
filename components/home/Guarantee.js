@@ -1,6 +1,26 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { BarChart3, FileCheck, Timer } from 'lucide-react'
+import Button from '@/components/Button'
+
+const pillars = [
+  {
+    icon: BarChart3,
+    title: 'Measurable metrics',
+    description: 'ROI is defined upfront: hours saved, errors eliminated, dollar value. Not vague promises.',
+  },
+  {
+    icon: Timer,
+    title: '60-day window',
+    description: 'Enough time for the team to adopt the system and for savings to show up in the next close.',
+  },
+  {
+    icon: FileCheck,
+    title: 'In writing',
+    description: 'The guarantee is in the agreement. Not a handshake. Not implied.',
+  },
+]
 
 export default function Guarantee() {
   return (
@@ -10,13 +30,14 @@ export default function Guarantee() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <span className="text-green-400 text-sm font-semibold tracking-widest uppercase mb-3 block">Our Promise</span>
-          <h2 className="text-4xl font-bold mb-4">The 60-Day ROI Guarantee</h2>
+          <span className="text-accent-400 text-sm font-semibold tracking-widest uppercase mb-3 block">
+            Promise
+          </span>
+          <h2 className="text-4xl font-bold mb-4">The 60-day ROI guarantee</h2>
           <p className="text-dark-300 text-lg">
-            If we don't deliver positive ROI within 60 days of go-live, we keep working for free until you do.
+            If I don&apos;t deliver positive ROI within 60 days of go-live, I keep working at no additional fee until you do.
           </p>
         </motion.div>
 
@@ -24,96 +45,53 @@ export default function Guarantee() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="p-12 rounded-2xl border-2 border-green-500/30" style={{ background: 'rgba(34,197,94,0.05)' }}
+          className="p-8 md:p-12 rounded-2xl border border-accent-400/20 bg-accent-400/[0.04]"
         >
           <div className="grid md:grid-cols-3 gap-8 mb-12">
-            {[
-              {
-                icon: '📊',
-                title: 'Measurable Metrics',
-                description: 'We define ROI upfront. Hours saved, errors eliminated, dollar value. Not vague promises.',
-              },
-              {
-                icon: '⏱️',
-                title: '60-Day Timeline',
-                description: 'Plenty of time for your team to adopt the system and see the savings compound.',
-              },
-              {
-                icon: '📝',
-                title: 'In Writing',
-                description: 'Our guarantee is in your contract. Not a handshake. Not "implied." Legal, binding terms.',
-              },
-            ].map((item, i) => (
-              <motion.div
-                key={i}
-                whileHover={{ y: -4 }}
-                className="text-center"
-              >
-                <div className="text-5xl mb-4">{item.icon}</div>
-                <h3 className="font-bold text-lg mb-2">{item.title}</h3>
-                <p className="text-dark-300 text-sm">{item.description}</p>
-              </motion.div>
-            ))}
+            {pillars.map(item => {
+              const Icon = item.icon
+              return (
+                <div key={item.title} className="text-center">
+                  <div className="w-12 h-12 rounded-xl bg-accent-400/15 text-accent-400 flex items-center justify-center mx-auto mb-4">
+                    <Icon size={22} />
+                  </div>
+                  <h3 className="font-bold text-lg mb-2">{item.title}</h3>
+                  <p className="text-dark-300 text-sm">{item.description}</p>
+                </div>
+              )
+            })}
           </div>
 
-          {/* Details */}
-          <div className="border-t border-green-500/20 pt-8">
-            <h3 className="font-bold text-lg mb-6">What "positive ROI" means</h3>
-            <div className="grid md:grid-cols-2 gap-6">
+          <div className="border-t border-accent-400/15 pt-8">
+            <h3 className="font-bold text-lg mb-6">What &quot;positive ROI&quot; means</h3>
+            <div className="grid md:grid-cols-2 gap-4">
               {[
-                {
-                  label: 'Hours Freed',
-                  description: 'Your team spends less time on invoice processing than before.',
-                },
-                {
-                  label: 'Cost Savings',
-                  description: 'Dollar savings from labor efficiency exceed our implementation cost.',
-                },
-                {
-                  label: 'Error Reduction',
-                  description: 'Measurable decrease in manual data entry errors and duplicates.',
-                },
-                {
-                  label: 'Speed',
-                  description: 'Faster close cycles. More time for analysis and strategy.',
-                },
-              ].map((item, i) => (
-                <div key={i} className="p-4 rounded-lg bg-dark-800/50">
-                  <p className="font-semibold text-primary-300 mb-2">{item.label}</p>
+                { label: 'Hours freed', description: 'The team spends less time on the automated process than before.' },
+                { label: 'Cost savings', description: 'Labor efficiency exceeds the implementation fee inside the window.' },
+                { label: 'Error reduction', description: 'Measurable drop in manual-entry errors and duplicates.' },
+                { label: 'Speed', description: 'Faster close or reporting cycles — more time for analysis.' },
+              ].map(item => (
+                <div key={item.label} className="p-4 rounded-lg bg-dark-800/70">
+                  <p className="font-semibold text-primary-300 mb-1">{item.label}</p>
                   <p className="text-dark-300 text-sm">{item.description}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* The Commitment */}
-          <div className="mt-10 p-8 rounded-xl" style={{ background: 'rgba(26,123,174,0.1)', border: '1px solid rgba(26,123,174,0.2)' }}>
-            <p className="text-sm text-dark-300 mb-3 uppercase font-semibold">Why we do this</p>
-            <p className="text-lg leading-relaxed">
-              We're <span className="font-bold">so confident</span> in our process that we're willing to bet our time on it. We don't get paid until you win. That's how sure we are.
-            </p>
-            <p className="text-dark-400 text-sm mt-4">
-              We've deployed 25+ workflows. We've hit ROI guarantee on 24 of them within 60 days. The one we didn't? We worked for free for 3 months until we got it right. That's the deal.
+          <div className="mt-10 p-6 rounded-xl bg-primary-500/10 border border-primary-500/20">
+            <p className="text-xs text-dark-400 mb-2 uppercase font-semibold tracking-wider">Why this exists</p>
+            <p className="text-base leading-relaxed text-dark-200">
+              The guarantee aligns incentives: we define metrics before go-live, and I remain engaged until they are met.
+              It is a contractual commitment, not a marketing line.
             </p>
           </div>
         </motion.div>
 
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-12 text-center"
-        >
-          <p className="text-dark-300 mb-6">No risk. No hidden clauses. Just results.</p>
-          <a href="/contact">
-            <button className="px-8 py-4 rounded-xl font-semibold text-white transition-all hover:opacity-90" style={{ background: 'linear-gradient(135deg, #1a7bae, #0f4875)', boxShadow: '0 8px 32px rgba(26,123,174,0.35)' }}>
-              Get the guarantee in writing
-            </button>
-          </a>
-        </motion.div>
+        <div className="mt-12 text-center">
+          <p className="text-dark-300 mb-6">Terms are defined in writing before go-live.</p>
+          <Button href="/contact">Get the guarantee in writing</Button>
+        </div>
       </div>
     </section>
   )

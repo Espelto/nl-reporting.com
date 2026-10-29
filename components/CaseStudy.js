@@ -3,6 +3,17 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import N8NCanvas from '@/components/N8NCanvas'
+import KnimeCanvas from '@/components/KnimeCanvas'
+import PiAgentCanvas from '@/components/PiAgentCanvas'
+import { getPlatformSummary } from '@/components/home/platformSummaries'
+
+const WORKFLOW_CANVAS = {
+  n8n: N8NCanvas,
+  knime: KnimeCanvas,
+  KNIME: KnimeCanvas,
+  pi: PiAgentCanvas,
+  'pi-agent': PiAgentCanvas,
+}
 
 function SectionBody({ body }) {
   return (
@@ -53,6 +64,8 @@ export default function CaseStudy({ data }) {
   if (isLegacy) {
     return <CaseStudyLegacy data={data} />
   }
+
+  const platform = data.workflowPlatform ? getPlatformSummary(data.workflowPlatform) : null
 
   return (
     <article className="min-h-screen bg-dark-900 overflow-x-hidden pb-16">
@@ -105,6 +118,31 @@ export default function CaseStudy({ data }) {
           </motion.div>
         )}
 
+        {platform && (
+          <motion.section
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="mb-10 rounded-xl p-6"
+            style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}
+          >
+            <p className="text-primary-400 text-xs font-semibold uppercase tracking-widest mb-2">
+              Platform · {platform.name}
+            </p>
+            <p className="text-white font-semibold mb-2">{platform.exampleTitle}</p>
+            <p className="text-dark-300 text-sm leading-relaxed mb-4">{platform.exampleBlurb}</p>
+            <p className="text-dark-400 text-xs uppercase tracking-wider mb-2">Why {platform.name}</p>
+            <ul className="space-y-1.5 mb-0">
+              {platform.bestFor.map(item => (
+                <li key={item} className="text-dark-300 text-sm flex gap-2">
+                  <span className="text-primary-400 flex-shrink-0">·</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </motion.section>
+        )}
+
         {data.workflow && (
           <motion.section
             initial={{ opacity: 0, y: 12 }}
@@ -113,12 +151,18 @@ export default function CaseStudy({ data }) {
             className="mb-14"
           >
             <h2 className="text-sm font-semibold uppercase tracking-widest text-primary-400 mb-2">
-              Workflow
+              Workflow preview
             </h2>
             <p className="text-dark-400 text-sm mb-5 max-w-2xl">
-              Representative of the production n8n workflow we deployed. Click any node for parameters and sample output, or use Walk the workflow for a guided tour.
+              Representative of the production environment we deployed. Select any node to review configuration parameters and sample output, or use the guided tour.
             </p>
-            <N8NCanvas nodes={data.workflow.nodes} connections={data.workflow.connections} />
+            {(() => {
+              const nodes = data.workflow.nodes
+              const connections = data.workflow.connections
+              if (!Array.isArray(nodes) || nodes.length === 0) return null
+              const Canvas = WORKFLOW_CANVAS[data.workflowPlatform] || N8NCanvas
+              return <Canvas nodes={nodes} connections={connections || []} />
+            })()}
           </motion.section>
         )}
 
@@ -170,14 +214,12 @@ export default function CaseStudy({ data }) {
         )}
 
         <div className="pt-6" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-          <Link href="/contact">
-            <button
-              type="button"
-              className="px-8 py-4 rounded-xl font-semibold text-white transition-all hover:opacity-90"
-              style={{ background: 'linear-gradient(135deg, #1a7bae, #0f4875)', boxShadow: '0 8px 32px rgba(26,123,174,0.3)' }}
-            >
-              Build something similar
-            </button>
+          <Link
+            href="/contact"
+            className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-semibold text-white transition-all hover:opacity-90"
+            style={{ background: 'linear-gradient(135deg, #1a7bae, #0f4875)', boxShadow: '0 8px 32px rgba(26,123,174,0.3)' }}
+          >
+            Build something similar
           </Link>
         </div>
       </div>
