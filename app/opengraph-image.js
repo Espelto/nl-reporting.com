@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og'
 
-export const alt = 'NL Reporting — Finance automation built for production'
+export const alt = 'NL Reporting — finance process ownership for controllers'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -41,18 +41,18 @@ export default function OpenGraphImage() {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-          <div style={{ fontSize: 58, fontWeight: 700, lineHeight: 1.1, letterSpacing: -1.5, maxWidth: 980 }}>
-            Finance automation built for production.
+          <div style={{ fontSize: 54, fontWeight: 700, lineHeight: 1.1, letterSpacing: -1.5, maxWidth: 980 }}>
+            One finance process, live. Then I stay on it.
           </div>
           <div style={{ fontSize: 26, color: '#7fbfd6', maxWidth: 860 }}>
-            n8n · KNIME · on-premise AI — implemented and supported by Alexey Kobzev
+            For controllers and heads of finance. Alexey Kobzev.
           </div>
         </div>
 
         <div style={{ display: 'flex', gap: 40, fontSize: 20, color: '#9ca3af' }}>
-          <span>140h/mo returned in AP</span>
+          <span>140h → ~8h monthly AP</span>
           <span>12 → 4 day close</span>
-          <span>60-day ROI guarantee</span>
+          <span>Retainer after go-live</span>
         </div>
       </div>
     ),

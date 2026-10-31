@@ -14,9 +14,9 @@ import {
 import Button from '@/components/Button'
 
 const headline = [
-  { value: '93%', label: 'faster AP processing', href: '/case-studies/invoice-automation' },
+  { value: '8–45→3', label: 'minutes per invoice', href: '/case-studies/invoice-automation' },
   { value: '12→4', label: 'day close cycle', href: '/case-studies/month-end-close' },
-  { value: '8h/wk', label: 'analyst time returned', href: '/case-studies/budget-vs-actuals' },
+  { value: '8h/wk', label: 'analyst rebuild returned', href: '/case-studies/budget-vs-actuals' },
   { value: '91%', label: 'cash forecast accuracy', href: '/case-studies/cash-flow-forecasting' },
 ]
 
@@ -24,9 +24,9 @@ const rows = [
   {
     name: 'Invoice automation',
     platform: 'n8n',
-    before: '45 min / invoice',
-    after: '3 min / invoice',
-    impact: '140h / month',
+    before: '8–45 min / invoice',
+    after: '3 min, with review',
+    impact: '140h → ~8h / month',
     href: '/case-studies/invoice-automation',
   },
   {
@@ -78,7 +78,7 @@ export default function ResultsView() {
       <section className="px-4 pt-16 pb-10 md:pt-24 text-center bg-radial-fade">
         <div className="max-w-3xl mx-auto">
           <p className="text-primary-400 text-sm font-semibold tracking-widest uppercase mb-4">Results</p>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Measured outcomes from live builds</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">Measured finance process results</h1>
           <p className="text-dark-300 text-lg">
             Numbers below come from the four case studies on this site — not blended marketing averages.
           </p>
@@ -110,7 +110,9 @@ export default function ResultsView() {
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
           <div className="rounded-2xl p-6 border border-white/[0.08] bg-white/[0.03]">
             <h2 className="font-semibold mb-1">AP processing time</h2>
-            <p className="text-dark-400 text-xs mb-4">Minutes per invoice</p>
+            <p className="text-dark-400 text-xs mb-4">
+              Minutes per invoice. The before bar is the multi-line manual time. Simple bills were about 8 minutes. After is automated handling plus review.
+            </p>
             <div className="h-56">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={timeData}>
@@ -170,15 +172,15 @@ export default function ResultsView() {
             </tbody>
           </table>
         </div>
-        <p className="max-w-5xl mx-auto text-dark-500 text-xs mt-3">
-          Case studies are written as implementation narratives. Company names are withheld.
+        <p className="max-w-5xl mx-auto text-dark-500 text-xs mt-3 leading-relaxed">
+          Company names are withheld. Invoice time is 8–45 minutes manual, depending on the bill, to about 3 minutes with review. Monthly AP hours were 140, then about 8 on exceptions. Close is calendar days, 12 to 4, on a separate engagement. Variance hours are the analyst’s weekly rebuild, now the Sunday run. Cash accuracy is the 4-week horizon. The two near-misses were in the prior year, and the first year live had none. Figures are not a promise of the same result.
         </p>
       </section>
 
       <section className="px-4 pb-20 text-center">
         <h2 className="text-2xl font-bold mb-3">Want numbers like these on your close?</h2>
         <p className="text-dark-300 mb-6">45-minute process review. Current state, opportunities, estimated return.</p>
-        <Button href="/contact">Book a process audit</Button>
+        <Button href="/contact">Request a process audit</Button>
       </section>
     </main>
   )

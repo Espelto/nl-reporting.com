@@ -87,10 +87,11 @@ export default function Sidebar() {
 
         <Link
           href="/contact"
-          className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white hover:shadow-lg hover:shadow-primary-500/40 transition-all"
-          title="Book a process audit"
+          className="w-12 min-h-10 px-1 py-1.5 rounded-lg bg-gradient-to-br from-primary-500 to-primary-600 flex flex-col items-center justify-center text-white hover:shadow-lg hover:shadow-primary-500/40 transition-all"
+          aria-label="Request a process audit"
         >
-          <ArrowRight size={16} />
+          <ArrowRight size={14} />
+          <span className="text-[9px] font-semibold leading-none mt-0.5 tracking-wide">Talk</span>
         </Link>
       </aside>
 

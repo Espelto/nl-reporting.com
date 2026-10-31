@@ -13,9 +13,9 @@ export default function CaseStudiesIndex() {
   return (
     <main className="min-h-screen bg-dark-900 overflow-x-hidden">
       <section className="py-20 px-4 text-center bg-radial-fade">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">Case studies</h1>
+        <h1 className="text-4xl md:text-5xl font-bold mb-4">Finance process case studies</h1>
         <p className="text-dark-300 max-w-2xl mx-auto text-lg leading-relaxed">
-          Implementation detail, interactive workflow previews, and measured outcomes — organized by platform.
+          Four engagements: invoice intake, month-end close, variance packs, and cash. Company names are withheld. The workflow previews are simplified schematics.
         </p>
       </section>
 

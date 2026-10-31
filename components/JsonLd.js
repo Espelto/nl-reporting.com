@@ -16,10 +16,11 @@ export default function JsonLd() {
         founder: { '@id': `${SITE.url}/#person` },
         sameAs: [SITE.founder.linkedin],
         serviceType: [
-          'Finance process automation',
+          'Finance process ownership',
           'Accounts payable automation',
           'Month-end close automation',
           'FP&A reporting automation',
+          'Cash flow forecasting',
         ],
       },
       {
@@ -39,6 +40,28 @@ export default function JsonLd() {
         worksFor: { '@id': `${SITE.url}/#business` },
       },
     ],
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  )
+}
+
+export function FaqJsonLd({ questions }) {
+  const data = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: questions.map(item => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
   }
 
   return (

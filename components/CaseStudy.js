@@ -103,8 +103,9 @@ export default function CaseStudy({ data }) {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.08 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12"
+            className="mb-12"
           >
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {data.numbers.map((n, i) => (
               <div
                 key={i}
@@ -115,6 +116,10 @@ export default function CaseStudy({ data }) {
                 <p className="text-dark-400 text-xs mt-2">{n.label}</p>
               </div>
             ))}
+          </div>
+          {data.measurement && (
+            <p className="text-dark-500 text-xs leading-relaxed mt-4 max-w-3xl">{data.measurement}</p>
+          )}
           </motion.div>
         )}
 
@@ -154,7 +159,7 @@ export default function CaseStudy({ data }) {
               Workflow preview
             </h2>
             <p className="text-dark-400 text-sm mb-5 max-w-2xl">
-              Representative of the production environment we deployed. Select any node to review configuration parameters and sample output, or use the guided tour.
+              Simplified schematic. Node settings are examples, not a client’s live credentials. Select a node to see the shape of the configuration, or use the guided tour.
             </p>
             {(() => {
               const nodes = data.workflow.nodes
@@ -219,7 +224,7 @@ export default function CaseStudy({ data }) {
             className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-semibold text-white transition-all hover:opacity-90"
             style={{ background: 'linear-gradient(135deg, #1a7bae, #0f4875)', boxShadow: '0 8px 32px rgba(26,123,174,0.3)' }}
           >
-            Build something similar
+            Request a process audit
           </Link>
         </div>
       </div>
@@ -280,7 +285,7 @@ function CaseStudyLegacy({ data }) {
           className="px-6 py-3 rounded-lg font-semibold text-white text-sm"
           style={{ background: 'linear-gradient(135deg, #1a7bae, #0f4875)' }}
         >
-          Build Something Similar
+          Request a process audit
         </button>
       </Link>
     </div>

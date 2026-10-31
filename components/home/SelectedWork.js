@@ -8,8 +8,8 @@ const studies = [
     href: '/case-studies/invoice-automation',
     platform: 'n8n',
     title: 'Invoice processing',
-    metric: '93% faster',
-    detail: '45 min → 3 min per invoice · 140 hours/month returned',
+    metric: '8–45 → 3 min',
+    detail: 'Per invoice, then review · 140h of monthly AP time, now about 8h on exceptions',
   },
   {
     href: '/case-studies/month-end-close',
@@ -49,6 +49,9 @@ export default function SelectedWork() {
               If you want the proof
             </span>
             <h2 className="text-3xl md:text-4xl font-bold">Four processes, shipped</h2>
+            <p className="text-dark-400 text-sm mt-3 max-w-xl">
+              Company names are withheld. Each figure is defined on the study.
+            </p>
           </div>
           <Link
             href="/case-studies"

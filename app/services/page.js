@@ -1,12 +1,13 @@
 import { Check } from 'lucide-react'
 import Button from '@/components/Button'
+import { FaqJsonLd } from '@/components/JsonLd'
 import { SITE } from '@/lib/site'
 import { pageMeta } from '@/lib/seo'
 
 export const metadata = pageMeta({
-  title: 'Services',
+  title: 'Finance process retainer',
   description:
-    'Finance process ownership on a retainer: ship one painful workflow, keep it running, then add the next. Invoice intake, close, variance, cash.',
+    'Finance process ownership for controllers and heads of finance: one workflow live in about four weeks, then a retainer. Invoice intake, close, variance, cash.',
   path: '/services',
 })
 
@@ -27,7 +28,10 @@ const workflows = [
     title: 'Variance and cash',
     body: 'Monday packs from GL + budget, or a 13-week cash view that updates itself. Typical when FP&A still rebuilds the same workbook every cycle.',
     points: ['Budget vs actuals packs', 'Material variance commentary', 'Daily cash brief'],
-    href: '/case-studies/budget-vs-actuals',
+    links: [
+      { href: '/case-studies/budget-vs-actuals', label: 'Variance case study' },
+      { href: '/case-studies/cash-flow-forecasting', label: 'Cash case study' },
+    ],
   },
 ]
 
@@ -36,7 +40,7 @@ const included = [
   'Production build on your data',
   'Pilot, training, and go-live',
   'Dedicated Slack channel',
-  '2-hour response commitment',
+  '2-hour response once you are a client',
   'Coverage through first close',
   'Monthly retainer to run and extend',
   'ROI metrics defined in writing',
@@ -57,21 +61,72 @@ const notAFit = [
   },
 ]
 
+const faq = [
+  {
+    question: 'Who is this for?',
+    answer:
+      'A controller or head of finance with no IT bench, who has already outgrown spreadsheets and Zapier. The four workflows are invoice and AP intake, month-end close, variance packs, and cash.',
+  },
+  {
+    question: 'What does the starting fee cover?',
+    answer: `Engagements start around $${SITE.engagementStart.toLocaleString()} for the first process. That figure is the starting build fee, not a monthly rate. The first process typically ships in four weeks. The retainer is what follows: I keep the live work running and we add the next process.`,
+  },
+  {
+    question: 'What is the difference between 24 hours and 2 hours?',
+    answer:
+      'A new inquiry gets a reply within 24 hours. That clock is the sales reply. Once you are a client, the support commitment is 2 hours.',
+  },
+  {
+    question: 'When are you the wrong hire?',
+    answer:
+      'If five simple Zaps would do it, if the company is a Microsoft 365 shop that should use Power Automate, or if the buyer wants an enterprise iPaaS bake-off. I will say so.',
+  },
+  {
+    question: 'Do you name the clients in the case studies?',
+    answer:
+      'Company names are withheld. The figures are from those engagements and are not a promise of the same result on yours. Each study states what was counted.',
+  },
+  {
+    question: 'What happens in the 45 minutes?',
+    answer:
+      'You describe the process. I tell you what is automatable, what is not, and whether a retainer makes sense. No deck.',
+  },
+]
+
 export default function ServicesPage() {
   return (
     <main className="min-h-screen bg-dark-900 overflow-x-hidden">
+      <FaqJsonLd questions={faq} />
       <section className="px-4 pt-16 pb-12 md:pt-24 bg-radial-fade">
         <div className="max-w-3xl mx-auto text-center">
           <p className="text-primary-400 text-sm font-semibold tracking-widest uppercase mb-4">
-            How I work
+            Controllers and heads of finance · no IT bench
           </p>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">I own the process, not a platform</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">Finance process ownership</h1>
           <p className="text-dark-300 text-lg leading-relaxed">
-            You hire me to take one painful finance workflow live and keep it running. The first one
-            typically ships in four weeks. After that, a retainer: I watch it when it breaks and we
-            add the next process. Engagements typically start around $
-            {SITE.engagementStart.toLocaleString()}.
+            {SITE.tagline} The first process typically ships in four weeks. Engagements start around {'$'}{SITE.engagementStart.toLocaleString()} for that build. The retainer is what follows — I watch
+            it when it breaks and we add the next process.
           </p>
+        </div>
+      </section>
+
+      <section className="px-4 pb-8">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-2xl font-bold mb-3">When I am not the right fit</h2>
+          <p className="text-dark-400 text-sm mb-6">
+            Past spreadsheets and Zapier is the line. If a simpler tool already fits, I will say so.
+          </p>
+          <div className="grid md:grid-cols-3 gap-4">
+            {notAFit.map(item => (
+              <article
+                key={item.title}
+                className="rounded-xl p-5 border border-white/[0.08] bg-white/[0.02]"
+              >
+                <h3 className="font-semibold text-white mb-2">{item.title}</h3>
+                <p className="text-dark-300 text-sm leading-relaxed">{item.body}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -92,9 +147,13 @@ export default function ServicesPage() {
                   </li>
                 ))}
               </ul>
-              <Button href={o.href} variant="secondary" className="w-full text-sm py-3">
-                See a case study
-              </Button>
+              <div className="flex flex-col gap-2">
+                {(o.links || [{ href: o.href, label: 'See a case study' }]).map(link => (
+                  <Button key={link.href} href={link.href} variant="secondary" className="w-full text-sm py-3">
+                    {link.label}
+                  </Button>
+                ))}
+              </div>
             </article>
           ))}
         </div>
@@ -110,10 +169,10 @@ export default function ServicesPage() {
             </p>
             <p className="text-dark-400 text-sm leading-relaxed mb-6">
               I usually build on n8n. KNIME when the work is a reporting pipeline. A small on-prem
-              agent when ledgers cannot leave the LAN. The skill is the APIs your team already lives
-              in. The canvas is just the current interface.
+              agent when ledgers cannot leave the LAN. Those are means. The product is the process,
+              still running after go-live. ROI metrics are defined in writing before the build.
             </p>
-            <Button href="/contact">Request a scoped proposal</Button>
+            <Button href="/contact">Request a process audit</Button>
           </div>
           <ul className="grid sm:grid-cols-2 gap-3">
             {included.map(item => (
@@ -130,20 +189,14 @@ export default function ServicesPage() {
       </section>
 
       <section className="px-4 pb-12">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold mb-3">When I am not the right fit</h2>
-          <p className="text-dark-400 text-sm mb-6">
-            I will tell you. Fighting the simpler tool is a waste of both of our time.
-          </p>
-          <div className="grid md:grid-cols-3 gap-4">
-            {notAFit.map(item => (
-              <article
-                key={item.title}
-                className="rounded-xl p-5 border border-white/[0.08] bg-white/[0.02]"
-              >
-                <h3 className="font-semibold text-white mb-2">{item.title}</h3>
-                <p className="text-dark-300 text-sm leading-relaxed">{item.body}</p>
-              </article>
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold mb-6">Questions</h2>
+          <div className="space-y-6">
+            {faq.map(item => (
+              <div key={item.question}>
+                <h3 className="font-semibold text-white mb-2">{item.question}</h3>
+                <p className="text-dark-300 text-sm leading-relaxed">{item.answer}</p>
+              </div>
             ))}
           </div>
         </div>
@@ -154,9 +207,9 @@ export default function ServicesPage() {
           <h2 className="text-2xl font-bold mb-3">Start with the process</h2>
           <p className="text-dark-300 mb-6">
             Describe the workflow. I will tell you what is automatable, what is not, and whether a
-            retainer makes sense.
+            retainer makes sense. 45 minutes. No deck. Reply within {SITE.replyHours} hours.
           </p>
-          <Button href="/contact">Get in touch</Button>
+          <Button href="/contact">Request a process audit</Button>
         </div>
       </section>
     </main>

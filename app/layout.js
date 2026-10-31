@@ -14,15 +14,15 @@ const jakarta = Plus_Jakarta_Sans({
 export const metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: `${SITE.name} | I own the finance process`,
+    default: `${SITE.name} | Finance process ownership for controllers`,
     template: `%s | ${SITE.name}`,
   },
   description: SITE.description,
   keywords: [
-    'finance automation',
+    'finance process ownership',
     'FP&A',
-    'n8n',
-    'KNIME',
+    'controller',
+    'head of finance',
     'invoice automation',
     'month-end close',
     'cash flow forecasting',
@@ -31,7 +31,7 @@ export const metadata = {
   authors: [{ name: SITE.founder.name, url: SITE.founder.linkedin }],
   creator: SITE.founder.name,
   openGraph: {
-    title: `${SITE.name} | Finance automation for production`,
+    title: `${SITE.name} | Finance process ownership for controllers`,
     description: SITE.description,
     url: SITE.url,
     siteName: SITE.name,
@@ -40,7 +40,7 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${SITE.name} | Finance automation for production`,
+    title: `${SITE.name} | Finance process ownership for controllers`,
     description: SITE.description,
   },
   robots: { index: true, follow: true },

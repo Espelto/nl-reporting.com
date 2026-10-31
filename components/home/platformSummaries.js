@@ -6,7 +6,7 @@ export const HOMEPAGE_PLATFORMS = [
     name: 'n8n',
     tagline: 'Integrations and event-driven workflows',
     hook: 'Connect email, ERP, and Slack with orchestrated AP automation and exception routing.',
-    metric: '140h/month freed',
+    metric: '140h → ~8h monthly AP',
     caseStudyHref: '/case-studies/invoice-automation',
   },
   {
@@ -54,9 +54,10 @@ export const PLATFORM_LIST = [
     tagline: 'Local AI assistant on your hardware',
     description:
       'Best when source data must remain on your network—payroll, unreconciled GL, or other sensitive records. A Raspberry Pi or small server runs Ollama and agent tools on your LAN. Optional summarized cloud enrichment can be swapped for a fully local model.',
-    bestFor: ['On-premise / air-gapped finance', 'Daily cash & runway Q&A', 'Slack copilot without cloud upload', 'Lower recurring API cost'],
-    exampleTitle: 'Daily cash brief — no data leaves the building',
-    exampleBlurb: 'Pi reads exports from a shared folder, local Llama drafts the brief, Slack delivery at 6am.',
+    bestFor: ['On-premise finance data', 'Daily cash and runway view', 'Slack alert under a cash buffer', 'Lower recurring API cost'],
+    exampleTitle: 'Weekday 13-week cash model',
+    exampleBlurb:
+      'Live pulls from QuickBooks, Bill.com, Gusto, and Plaid on a Pi in the office network. Raw ledgers stay on the LAN. A summarized payment-probability step can use Claude or a local model.',
   },
 ]
 
@@ -68,8 +69,8 @@ export const CASE_STUDIES_BY_PLATFORM = [
         slug: 'invoice-automation',
         title: 'Invoice processing automation',
         context: 'B2B SaaS · ~200 invoices/month',
-        metric: '93% faster processing',
-        sub: '140 hours/month returned to the team',
+        metric: '8–45 min → 3 min',
+        sub: '140h of monthly AP time, then about 8h on exceptions',
       },
       {
         slug: 'month-end-close',

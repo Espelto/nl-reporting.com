@@ -19,6 +19,8 @@ const data = {
     { value: '3 days → 4h', label: 'reconciliation time' },
     { value: '$36k', label: 'annual saving' },
   ],
+  measurement:
+    'Close length is calendar days from period-end, 12 to 4, after a two-day map of 87 steps. Reconciliation time is the combined bank and card work: about 3 days down to about 4 hours of exception review. Human effort did not go to zero — 34 of the original 87 steps stayed, because they need judgment. The $36k is the published annual saving for this engagement; this page does not publish the loaded rate. This Series B team is a separate company from the invoice study.',
   sections: [
     {
       heading: 'The situation',
@@ -50,7 +52,7 @@ const data = {
         {
           type: 'list',
           items: [
-            'N8N self-hosted on the same DigitalOcean server as the invoice automation — the two workflows share infrastructure',
+            'N8N self-hosted on a DigitalOcean droplet. This Series B team is a separate engagement from the invoice automation study',
             'Notion API for the close checklist and dashboard — Notion served as the task database because the team already used it and it has a reasonably capable API',
             'Plaid API for bank account statements — requires initial OAuth setup with each bank; took one hour per account to configure',
             'Brex API for credit card transactions — Brex has a well-documented REST API that was straightforward to connect',

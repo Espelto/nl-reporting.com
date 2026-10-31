@@ -4,7 +4,7 @@ import { pageMeta } from '@/lib/seo'
 export const metadata = pageMeta({
   title: 'Invoice Processing Automation',
   description:
-    'n8n invoice automation for a B2B SaaS team: 45 minutes to 3 minutes per invoice, 99.2% accuracy, 140 hours returned per month.',
+    'n8n invoice automation for a B2B SaaS team: 8–45 minutes down to about 3 with review, 99.2% accuracy, monthly AP hours from 140 to about 8.',
   path: '/case-studies/invoice-automation',
 })
 
@@ -14,11 +14,13 @@ const data = {
   tags: ['n8n', 'Claude AI', 'QuickBooks Online', 'IMAP', 'Google Drive'],
   workflowPlatform: 'n8n',
   numbers: [
-    { value: '140h', label: 'freed per month' },
-    { value: '45 → 3 min', label: 'per invoice' },
-    { value: '99.2%', label: 'accuracy rate' },
-    { value: '$7k', label: 'monthly savings' },
+    { value: '140h → ~8h', label: 'monthly AP hours' },
+    { value: '8–45 → 3', label: 'minutes per invoice' },
+    { value: '99.2%', label: 'accuracy, from 87% manual' },
+    { value: '$7k', label: 'monthly labour difference' },
   ],
+  measurement:
+    'Time per invoice is the range in the results table: about 8 minutes for a simple bill, 30–45 for a multi-line bill with a PO match, versus about 3 minutes once the workflow runs and a person reviews exceptions. Monthly AP hours were 140 before and about 8 on exceptions after, at roughly 200 invoices a month. The $7k figure is the published monthly labour difference (about $35 per invoice before, about $2.10 after). Accuracy moved from 87% on manual entry to 99.2%; this page does not publish the sample size. Day 7–8 to day 3 is when AP finished on this engagement. A separate study covers a 12-day close.',
   sections: [
     {
       heading: 'The situation',

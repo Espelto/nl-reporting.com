@@ -19,6 +19,8 @@ const data = {
     { value: '8h/week', label: 'analyst time freed' },
     { value: '$4.2k', label: 'monthly labour saving' },
   ],
+  measurement:
+    'The 8 hours a week was the analyst’s estimate for export, reconciliation, commentary, and formatting. The Sunday run now produces the Monday 7am pack, which is why the results table shows 0 hours on that rebuild. It does not count time spent reading Slack alerts. The $4.2k is the published monthly labour figure for those 8 hours; this page does not publish the loaded rate.',
   sections: [
     {
       heading: 'The situation',
@@ -160,10 +162,10 @@ const data = {
   },
   results: [
     { metric: 'Report delivery time', before: 'Tuesday PM (stale data)', after: 'Monday 7am (week-fresh data)' },
-    { metric: 'Analyst hours on report', before: '8 hours/week', after: '0 (fully automated)' },
+    { metric: 'Analyst hours on report', before: '8 hours/week', after: '0 on the weekly rebuild' },
     { metric: 'Large variance detection', before: 'Weekly (next report)', after: 'Within 6 hours of occurrence' },
     { metric: 'Department head self-service', before: 'Email analyst, wait for response', after: 'Report in inbox Monday' },
-    { metric: 'Annual analyst hours recovered', before: '~400h/year on this task', after: '0' },
+    { metric: 'Annual analyst hours recovered', before: '~400h/year on this task', after: '0 on this rebuild' },
   ],
 }
 

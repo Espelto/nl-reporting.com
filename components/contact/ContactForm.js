@@ -22,18 +22,6 @@ export default function ContactForm({ compact = false }) {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  const payload = () => ({
-    name: formData.name,
-    email: formData.email,
-    company: formData.company,
-    focus: formData.focus,
-    message: formData.message,
-    _subject: `NL Reporting inquiry — ${formData.name}`,
-    _replyto: formData.email,
-    _template: 'table',
-    _captcha: 'false',
-  })
-
   const mailtoHref = () => {
     const subject = encodeURIComponent(`NL Reporting inquiry — ${formData.name}`)
     const body = encodeURIComponent(
@@ -59,13 +47,7 @@ export default function ContactForm({ compact = false }) {
     }
 
     try {
-      let result = await tryJsonPost('/api/contact', formData)
-      if (!result.ok) {
-        result = await tryJsonPost(
-          `https://formsubmit.co/ajax/${encodeURIComponent(SITE.email)}`,
-          payload(),
-        )
-      }
+      const result = await tryJsonPost('/api/contact', formData)
       if (!result.ok) {
         setStatus('error')
         setError(result.data.error || result.data.message || 'Could not send')
@@ -91,18 +73,23 @@ export default function ContactForm({ compact = false }) {
       <motion.div
         initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="text-center py-12"
+        className={`text-center ${compact ? 'py-6' : 'py-12'}`}
       >
         <div className="w-14 h-14 rounded-full bg-accent-400/15 text-accent-400 text-2xl flex items-center justify-center mx-auto mb-4">
           ✓
         </div>
-        <h2 className="text-2xl font-bold mb-2">Got it</h2>
+        <h2 className="text-2xl font-bold mb-2">Request received</h2>
         <p className="text-dark-300 max-w-md mx-auto">
-          I reply within 24 hours. If it is urgent, email{' '}
+          I will reply from{' '}
           <a href={`mailto:${SITE.email}`} className="text-primary-400">
             {SITE.email}
-          </a>
-          .
+          </a>{' '}
+          within {SITE.replyHours} hours. You will get a straight answer on whether the process is worth
+          automating, and whether a retainer makes sense. The conversation is 45 minutes. No deck.
+        </p>
+        <p className="text-dark-500 text-xs max-w-md mx-auto mt-4">
+          The {SITE.replyHours}-hour clock is the sales reply. The {SITE.responseHours}-hour response
+          applies after you are a client.
         </p>
       </motion.div>
     )
@@ -219,7 +206,7 @@ export default function ContactForm({ compact = false }) {
         disabled={status === 'sending'}
         className={`w-full rounded-xl font-semibold text-white transition-all disabled:opacity-60 bg-gradient-to-br from-primary-500 to-primary-700 shadow-lg shadow-primary-500/25 ${compact ? 'py-3 text-sm' : 'py-4'}`}
       >
-        {status === 'sending' ? 'Sending…' : compact ? 'Send' : 'Request a process audit'}
+        {status === 'sending' ? 'Sending…' : 'Request a process audit'}
       </button>
       <p className="text-center text-xs text-dark-500">
         Or email{' '}

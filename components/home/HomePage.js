@@ -7,7 +7,7 @@ import SelectedWork from '@/components/home/SelectedWork'
 import { SITE } from '@/lib/site'
 
 const proof = [
-  { value: '140h', label: 'returned in AP' },
+  { value: '140h → ~8h', label: 'monthly AP hours' },
   { value: '12→4', label: 'day close' },
   { value: '4 weeks', label: 'typical go-live' },
 ]
@@ -19,11 +19,11 @@ const offer = [
   },
   {
     title: 'I own it after go-live',
-    body: 'Credentials, retries, exceptions, Slack when it breaks. You are not left with a canvas you have to babysit.',
+    body: 'Credentials, retries, exceptions, and Slack when it breaks. The first close is part of the work, not the handoff.',
   },
   {
     title: 'Then we add the next one',
-    body: 'Retainers are the offer. Each month we keep the live work running and take on the next process.',
+    body: 'The retainer is the offer. Each month I keep the live work running and take on the next process.',
   },
 ]
 
@@ -35,16 +35,19 @@ export default function HomePage() {
         <div className="relative z-10 max-w-6xl mx-auto grid lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-14 items-start">
           <div className="lg:pt-4">
             <span className="inline-block text-xs font-semibold tracking-widest uppercase px-3 py-1.5 rounded-full mb-6 border border-primary-500/30 bg-primary-500/15 text-primary-300">
-              Finance operations · small and mid-size companies
+              Controllers and heads of finance · no IT bench · past spreadsheets and Zapier
             </span>
-            <h1 className="text-4xl md:text-5xl lg:text-[3.4rem] font-bold mb-6 leading-[1.1] tracking-tight">
-              I take one painful finance process off your team.
-              <span className="text-primary-400"> Then I stay on it.</span>
+            <p className="text-sm text-dark-300 mb-3">
+              {SITE.founder.name}
+              <span className="text-dark-500"> · {SITE.founder.title}</span>
+            </p>
+            <h1 className="text-3xl md:text-4xl lg:text-[2.6rem] font-bold mb-6 leading-[1.15] tracking-tight">
+              {SITE.tagline}
             </h1>
-            <p className="text-base md:text-lg text-dark-300 mb-8 max-w-xl leading-relaxed">
-              Spreadsheets and Zapier hit a wall at volume, when data cannot leave your servers, or
-              when the workflow needs exceptions and retries. I ship the system, watch it when it
-              fails, and add the next process on a retainer.
+            <p className="text-sm text-dark-400 mb-8 max-w-xl leading-relaxed">
+              The first process typically ships in four weeks. Engagements start around {'$'}{SITE.engagementStart.toLocaleString()} for that build. The retainer is what follows.
+              A new inquiry gets a reply within {SITE.replyHours} hours. Once you are a client, support
+              is within {SITE.responseHours} hours.
             </p>
             <p className="text-xs text-dark-500">
               {SITE.founder.location} ·{' '}
@@ -65,9 +68,10 @@ export default function HomePage() {
 
           <div id="talk" className="scroll-mt-24">
             <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 md:p-6 shadow-2xl shadow-black/30">
-              <p className="text-sm font-semibold text-white mb-1">Tell me the process</p>
+              <p className="text-sm font-semibold text-white mb-1">Request a process audit</p>
               <p className="text-xs text-dark-400 mb-5">
-                I reply within 24 hours with whether it is worth automating.
+                45 minutes. No deck. I reply within {SITE.replyHours} hours from {SITE.email} with
+                whether it is worth automating.
               </p>
               <ContactForm compact />
             </div>
@@ -91,12 +95,15 @@ export default function HomePage() {
             </motion.div>
           ))}
         </div>
+        <p className="max-w-3xl mx-auto text-center text-dark-500 text-xs mt-4">
+          From the case studies. Company names are withheld. Each figure is defined on its study.
+        </p>
       </div>
 
       <section className="py-16 md:py-20 px-4">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-bold mb-8 max-w-xl">
-            You are not hiring someone who knows a canvas. You are hiring someone who owns the work.
+            You are hiring the person who stays on the work after go-live.
           </h2>
           <div className="grid md:grid-cols-3 gap-5">
             {offer.map((item, i) => (

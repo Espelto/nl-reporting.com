@@ -17,7 +17,7 @@ export default function Footer() {
               <span className="font-bold text-lg tracking-tight">{SITE.name}</span>
             </Link>
             <p className="text-dark-400 text-sm leading-relaxed mb-5">
-              {SITE.founder.name} takes a painful finance process live and keeps it running. The platform is the vehicle. The outcome is the product.
+              {SITE.founder.name} takes one finance process live for a controller or head of finance, then stays on it.
             </p>
             <div className="flex items-center gap-3">
               <a
@@ -98,7 +98,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/contact" className="hover:text-primary-300 transition-colors">
-                  Book a process audit
+                  Request a process audit
                 </Link>
               </li>
               <li className="text-dark-500">{SITE.founder.location}</li>

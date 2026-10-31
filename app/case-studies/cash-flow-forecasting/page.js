@@ -17,8 +17,10 @@ const data = {
     { value: '4h → 20min', label: 'weekly forecast time' },
     { value: '68% → 91%', label: 'forecast accuracy' },
     { value: 'Daily', label: 'vs weekly updates before' },
-    { value: '2 crises', label: 'avoided in first quarter' },
+    { value: '2 → 0', label: 'near-misses, prior year to first year live' },
   ],
+  measurement:
+    'The 4 hours was the Friday manual build; 20 minutes is review of the weekday run. Accuracy is the 4-week horizon in the results table, about 68% to about 91%. CFO time is a separate count: about 12 hours a month down to about 1 hour of review. The two cash constraints were near-misses in the year before go-live. The results table records none in the first year live.',
   sections: [
     {
       heading: 'The situation',

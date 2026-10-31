@@ -2,9 +2,9 @@ import CaseStudiesIndex from '@/components/home/CaseStudiesIndex'
 import { pageMeta } from '@/lib/seo'
 
 export const metadata = pageMeta({
-  title: 'Case studies',
+  title: 'Finance process case studies',
   description:
-    'Finance automation case studies: invoice processing, month-end close, budget vs actuals, and cash-flow forecasting — with interactive n8n, KNIME, and Pi Agent workflows.',
+    'Four finance process engagements for controllers: invoice intake, month-end close, budget vs actuals, and cash forecasting. Company names withheld.',
   path: '/case-studies',
 })
 
